@@ -1,5 +1,4 @@
-import Image from "next/image"
-import Link from "next/link"
+import CountryCard from "@/components/country-cards"
 
 export type Country = {
   name: {
@@ -17,12 +16,15 @@ export type Country = {
     alt: string
   },
 
-  capital:string
-  region:string
-  subregion:string
+  capital: string
+  region: string
+  subregion: string
   population: number
-  languages?:string
-
+  languages?: {
+    [key: string]: string
+  },
+  borders?: string[]
+  cca3: string
 }
 
 async function getCoubtries(): Promise<Country[]> {
@@ -34,23 +36,15 @@ export default async function Home() {
   const countries = await getCoubtries()
 
   return (
-    <section className="grid grid-cols-5 w-full container gap-2 mt-16">
+    <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full container gap-2 mt-16">
       {countries.map((country) => (
-        <Link href={`/pais/${country.name.common}`} key={country.name.common}>
-          <article
-            className="h-64 min-w-full bg-zinc-50 border-2 rounded-xl p-2 hover:border-indigo-200 transition-all hover:shadow-xl"
-          >
-            <figure className="relative w-full h-32 p-2 overflow-hidden rounded-xl shadow">
-              <Image
-                className="object-cover"
-                src={country.flags.svg}
-                alt={country.flags.alt}
-                fill
-              />
-            </figure>
-            <p className="font-bold text-lg text-center mt-1">{country.translations.por.common}</p>
-          </article>
-        </Link>
+        <CountryCard 
+          key={country.name.common}
+          name={country.name.common}
+          ptName={country.translations.por.common}
+          flag={country.flags.svg}
+          flagAlt={country.flags.alt}
+        />
       ))}
     </section>
   );
