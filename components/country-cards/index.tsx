@@ -10,7 +10,7 @@ export default function CountryCard({
   name: string ,
   ptName: string ,
   flag: string ,
-  flagAlt: string
+  flagAlt?: string | undefined
 }) {
   return (
     <Link href={`/pais/${name}`} key={name}>
